@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xjl.oracle.dao.FriendsMapper" >
+    <insert id="addFriends" parameterType="com.xjl.oracle.domain.Friends">
+        insert into "xujiale".friends (friends_a_name,friends_b_id,friends_desc,friends_time,friends_status)
+        values(#{friendsAName,jdbcType=VARCHAR},#{friendsBId,jdbcType=INTEGER},#{friendsDesc,jdbcType=VARCHAR},#{friendsTime,jdbcType=VARCHAR},#{friendsStatus,jdbcType=INTEGER})
+    </insert>
+    <select id="findAll" resultType="com.xjl.oracle.domain.Friends">
+        select * from "xujiale".friends where friends_status = 0 order by friends_time desc
+    </select>
+    <select id="myFriends" resultType="com.xjl.oracle.domain.Friends">
+        select * from "xujiale".friends where friends_status = 1 order by friends_time desc
+    </select>
+    <update id="updateStatus">
+        update "xujiale".friends set friends_status = 1 where friends_b_id = #{friendsBId}
+    </update>
+</mapper>

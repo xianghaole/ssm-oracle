@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xjl.oracle.dao.ItemMapper" >
+    <!--<insert id="register" parameterType="com.xjl.oracle.domain.User">-->
+        <!--insert into "xujiale".admin_user_mgr (username,password,user_image,start_time)-->
+        <!--values(#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{userImage,jdbcType=VARCHAR},#{startTime,jdbcType=VARCHAR})-->
+    <!--</insert>-->
+    <!--<select id="findOne" resultType="com.xjl.oracle.domain.User">-->
+        <!--select * from "xujiale".admin_user_mgr where user_id=#{userId}-->
+    <!--</select>-->
+    <select id="findAll" resultType="com.xjl.oracle.domain.Item">
+        select * from "xujiale".item
+    </select>
+</mapper>

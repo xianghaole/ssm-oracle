@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xjl.oracle.dao.ArticleMapper" >
+    <insert id="addArticle" parameterType="com.xjl.oracle.domain.Article">
+        insert into "xujiale".article (article_title,article_img,article_desc,article_item_id,article_user_id,article_time)
+        values(#{articleTitle,jdbcType=VARCHAR},#{articleImg,jdbcType=VARCHAR},#{articleDesc,jdbcType=VARCHAR},#{articleItemId,jdbcType=INTEGER},
+        #{articleUserId,jdbcType=INTEGER},#{articleTime,jdbcType=VARCHAR})
+    </insert>
+    <select id="findAllWithPage"  resultMap="articleMap">
+--         select a.*,i.* from "xujiale".article a left join "xujiale".item i on a.article_item_id = i.item_id order by article_time desc
+        select a.*,i.*,u.* from "xujiale".article a left join "xujiale".item i on  a.article_item_id = i.item_id left join "xujiale".admin_user_mgr u on a.article_user_id = u.user_id order by article_time desc
+    </select>
+    <resultMap id="articleMap" type="com.xjl.oracle.domain.Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="article_img" property="articleImg"/>
+        <result column="article_desc" property="articleDesc"/>
+        <result column="article_time" property="articleTime"/>
+        <!--<id column="item_id" property="itemId"/>-->
+
+        <association property="item" javaType="com.xjl.oracle.domain.Item" >
+            <result column="item_id" property="itemId"/>
+            <result column="item_name" property="itemName"/>
+        </association>
+        <association property="user" javaType="com.xjl.oracle.domain.User" >
+            <result column="user_id" property="userId"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+            <result column="user_image" property="userImage"/>
+            <result column="start_time" property="startTime"/>
+        </association>
+
+    </resultMap>
+    <select id="findOne" resultType="com.xjl.oracle.domain.Article">
+        select * from "xujiale".article where article_id=#{articleId}
+    </select>
+    <!--<select id="findOne"  resultMap="articleMap3" >-->
+        <!--&#45;&#45;         select a.*,i.* from "xujiale".article a left join "xujiale".item i on a.article_item_id = i.item_id order by article_time desc-->
+        <!--select a.*,i.*,u.* from "xujiale".article a left join "xujiale".item i on  a.article_item_id = i.item_id left join "xujiale".admin_user_mgr u on a.article_user_id = u.user_id and user_id=#{userId}-->
+        <!--order by article_time desc-->
+    <!--</select>-->
+    <!--<resultMap id="articleMap3" type="com.xjl.oracle.domain.Article">-->
+        <!--<id column="article_id" property="articleId"/>-->
+        <!--<result column="comment" property="articleTitle"/>-->
+
+
+
+        <!--<association property="article" javaType="com.xjl.oracle.domain.Article" >-->
+            <!--<id column="article_id" property="articleId"/>-->
+            <!--<result column="article_title" property="articleTitle"/>-->
+            <!--<result column="article_img" property="articleImg"/>-->
+            <!--<result column="article_desc" property="articleDesc"/>-->
+            <!--<result column="article_time" property="articleTime"/>-->
+        <!--</association>-->
+
+    <!--</resultMap>-->
+    <!--<select id="findOneAdmin"   parameterType="int" resultType="com.xjl.oracle.domain.Article">-->
+        <!--select * from "xujiale".article where article_id=#{articleId}-->
+    <!--</select>-->
+    <select id="findOneAdmin"  resultMap="articleMap2" >
+       select a.*,i.*,u.* from "xujiale".article a,  "xujiale".item i ,"xujiale".admin_user_mgr u where a.article_user_id = u.user_id and i.item_id =a.article_item_id and article_id=#{articleId}
+    </select>
+    <resultMap id="articleMap2" type="com.xjl.oracle.domain.Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="article_img" property="articleImg"/>
+        <result column="article_desc" property="articleDesc"/>
+        <result column="article_time" property="articleTime"/>
+        <!--<id column="item_id" property="itemId"/>-->
+
+        <association property="item" javaType="com.xjl.oracle.domain.Item" >
+            <result column="item_id" property="itemId"/>
+            <result column="item_name" property="itemName"/>
+        </association>
+        <association property="user" javaType="com.xjl.oracle.domain.User" >
+            <result column="user_id" property="userId"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+            <result column="user_image" property="userImage"/>
+            <result column="start_time" property="startTime"/>
+        </association>
+
+    </resultMap>
+    <select id="findAll"  resultMap="articleMap1" >
+
+        select a.*,i.*,u.* from "xujiale".article a left join "xujiale".item i on  a.article_item_id = i.item_id left join "xujiale".admin_user_mgr u on a.article_user_id = u.user_id
+        order by article_time desc
+--      select a.*,i.*,u.* from "xujiale".article a , "xujiale".item i ,"xujiale".admin_user_mgr u where  a.article_item_id = i.item_id and   a.article_user_id = u.user_id and user_id=#{userId}
+--      order by article_time desc
+    </select>
+    <resultMap id="articleMap1" type="com.xjl.oracle.domain.Article">
+        <id column="article_id" property="articleId"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="article_img" property="articleImg"/>
+        <result column="article_desc" property="articleDesc"/>
+        <result column="article_time" property="articleTime"/>
+        <!--<id column="item_id" property="itemId"/>-->
+
+        <association property="item" javaType="com.xjl.oracle.domain.Item" >
+            <result column="item_id" property="itemId"/>
+            <result column="item_name" property="itemName"/>
+        </association>
+        <association property="user" javaType="com.xjl.oracle.domain.User" >
+            <result column="user_id" property="userId"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+            <result column="user_image" property="userImage"/>
+            <result column="start_time" property="startTime"/>
+        </association>
+
+    </resultMap>
+
+    <delete id="delete" parameterType="int">
+        delete from "xujiale".article where article_id = #{articleId}
+    </delete>
+    <!--<update id="update">-->
+        <!--update "xujiale".article set article_title = #{articleTitle,jdbcType=VARCHAR},article_img=#{articleImg,jdbcType=VARCHAR},article_time=#{articleTime,jdbcType=VARCHAR},article_desc=#{articleDesc,jdbcType=VARCHAR} where article_id=#{articleId,jdbcType=INTEGER}-->
+    <!--</update>-->
+    <!--<update id="update" >-->
+    <!--update "xujiale".article set article_title = #{articleTitle,jdbcType=VARCHAR},article_user_id=#{articleUserId,jdbcType=INTEGER} ,-->
+
+      <!--article_img=#{articleImg,jdbcType=VARCHAR},-->
+      <!--article_item_id=#{articleItemId,jdbcType=INTEGER},-->
+      <!--article_time=#{articleTime,jdbcType=VARCHAR},article_desc=#{articleDesc,jdbcType=VARCHAR} where article_id = #{articleId}-->
+    <!--</update>-->
+    <update id="update2">
+        update "xujiale".article set article_title = #{articleTitle,jdbcType=VARCHAR},article_desc=#{articleDesc,jdbcType=VARCHAR} where article_id = #{articleId}
+    </update>
+    <insert id="comment" parameterType="String">
+        insert into "xujiale".comment_article (comment_desc) values(#{commentDesc},jdbcType=VARCHAR)
+    </insert>
+
+</mapper>
